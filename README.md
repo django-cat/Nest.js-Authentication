@@ -1,3 +1,6 @@
 # Authentication API
-Nest.js
-
+> **Nest.js**
+## Tech
+* **TypeScript**
+* **JSON Web Token(JWT)**
+* **TypeORM**
