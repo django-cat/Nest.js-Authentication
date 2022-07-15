@@ -1,5 +1,5 @@
 # Authentication API
-> **Node.js Authentication API**
+> **Nest.js Authentication API**
 
 ## Tech
 * **Nest.js**
