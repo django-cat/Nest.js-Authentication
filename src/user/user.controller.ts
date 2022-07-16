@@ -6,8 +6,11 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
 } from '@nestjs/common'
+import { AuthGuard } from '@nestjs/passport'
 import { DeleteResult } from 'typeorm'
+import { GetUser } from './user.decorator'
 import { User } from './user.entity'
 import { UserService } from './user.service'
 import { AuthenticateUserDTO, CreateUserDTO } from './userDTO'
@@ -40,6 +43,12 @@ export class UserController {
   login(
     @Body() authenticateUserDTO: AuthenticateUserDTO,
   ): Promise<{ accessToken: string }> {
-    return this.userService.authenticate(authenticateUserDTO)
+    return this.userService.login(authenticateUserDTO)
+  }
+
+  @UseGuards(AuthGuard())
+  @Post('auth')
+  authenticate(@GetUser() user: User): User {
+    return user
   }
 }

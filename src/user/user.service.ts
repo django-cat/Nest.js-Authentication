@@ -42,7 +42,7 @@ export class UserService {
     return this.userRepository.delete(id)
   }
 
-  async authenticate(
+  async login(
     authenticateUserDTO: AuthenticateUserDTO,
   ): Promise<{ accessToken: string }> {
     const user = await this.userRepository.findOneBy({
