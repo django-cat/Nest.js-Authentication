@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { compare, genSalt, hash } from 'bcrypt'
 import { DeleteResult, Repository } from 'typeorm'
 import { User } from './user.entity'
-import { AuthenticateUserDTO, CreateUserDTO } from './userDTO'
+import { AuthenticateUserDTO, CreateUserDTO, UpdateUserDTO } from './userDTO'
 
 @Injectable()
 export class UserService {
@@ -36,6 +36,15 @@ export class UserService {
     const user = this.userRepository.create(createUserDTO)
     await this.userRepository.save(user)
     return user
+  }
+
+  async update(id: number, updateUserDTO: UpdateUserDTO): Promise<User> {
+    if (updateUserDTO.password) {
+      const salt = await genSalt(10)
+      updateUserDTO.password = await hash(updateUserDTO.password, salt)
+    }
+    await this.userRepository.update(id, updateUserDTO)
+    return await this.userRepository.findOneBy({ id })
   }
 
   delete(id: number): Promise<DeleteResult> {
